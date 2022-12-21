@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Calculator</title>
+		<style>
+            body {
+                background-color: #1f1b29;
+            }
+
+			.calculator {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin: auto;
+				width: 250px;
+			}
+
+			.display {
+				height: 50px;
+				width: 230px;
+				font-size: 20px;
+				background-color: lightgray;
+                display: flex;
+                align-items: center;
+				justify-content: right;
+				padding: 0 10px;
+				margin-bottom: 10px;
+                border-radius: .5rem;
+			}
+
+			.buttons {
+				display: grid;
+				grid-template-columns: repeat(4, 1fr);
+				grid-gap: 5px;
+				width: 100%;
+			}
+
+			button {
+				width: 100%;
+				height: 50px;
+				font-size: 20px;
+				background-color: lightgray;
+				border: none;
+                border-radius: .5rem;
+				cursor: pointer;
+			}
+
+			button:hover {
+				background-color: gray;
+			}
+
+			button.operator {
+				background-color: orange;
+			}
+
+			button.del {
+				background-color: red;
+			}
+
+			button.equal {
+				background-color: green;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="calculator">
+			<div class="display" id="display">0</div>
+			<div class="buttons">
+				<button type="button" onclick="addDigit('7')">7</button>
+				<button type="button" onclick="addDigit('8')">8</button>
+				<button type="button" onclick="addDigit('9')">9</button>
+				<button type="button" class="operator" onclick="addOperator('/')">/</button>
+				<button type="button" onclick="addDigit('4')">4</button>
+				<button type="button" onclick="addDigit('5')">5</button>
+				<button type="button" onclick="addDigit('6')">6</button>
+				<button type="button" class="operator" onclick="addOperator('*')">*</button>
+				<button type="button" onclick="addDigit('1')">1</button>
+				<button type="button" onclick="addDigit('2')">2</button>
+				<button type="button" onclick="addDigit('3')">3</button>
+				<button type="button" class="operator" onclick="addOperator('-')">-</button>
+				<button type="button" onclick="addDigit('0')">0</button>
+				<button type="button" class="del" onclick="del()">Del</button>
+				<button type="button" class="equal" onclick="calculate()">=</button>
+				<button type="button" class="operator" onclick="addOperator('+')">+</button>
+			</div>
+		</div>
+
+		<script>
+			var firstOperand = "";
+			var secondOperand = "";
+			var operator = "";
+
+			function addDigit(digit) {
+				if (operator === "") {
+					firstOperand += digit;
+					display.innerHTML = firstOperand;
+				} else {
+					secondOperand += digit;
+					display.innerHTML = secondOperand;
+				}
+			}
+
+			function addOperator(op) {
+				if (operator === "") {
+					operator = op;
+				} else {
+					calculate();
+					operator = op;
+					firstOperand = display.innerHTML;
+					secondOperand = "";
+				}
+			}
+
+			function calculate() {
+				var result;
+
+				firstOperand = parseInt(firstOperand);
+				secondOperand = parseInt(secondOperand);
+
+				if (operator === "+") {
+					result = firstOperand + secondOperand;
+				} else if (operator === "-") {
+					result = firstOperand - secondOperand;
+				} else if (operator === "*") {
+					result = firstOperand * secondOperand;
+				} else if (operator === "/") {
+					result = firstOperand / secondOperand;
+				}
+
+				display.innerHTML = result;
+				firstOperand = result;
+				secondOperand = "";
+				operator = "";
+			}
+
+			function del() {
+				display.innerHTML = "0";
+				firstOperand = "";
+				secondOperand = "";
+				operator = "";
+			}
+		</script>
+	</body>
+</html>
